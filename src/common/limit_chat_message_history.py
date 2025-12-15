@@ -4,7 +4,7 @@ from pydantic import Field
 import logging
 logger = logging.getLogger(__file__)
 class MessageHistory(InMemoryChatMessageHistory):
-    max_token:int = Field(20)
+    max_token:int = Field(...)
     """
     扩展的聊天历史记录,可以限制聊天记录的最大长度
     """
