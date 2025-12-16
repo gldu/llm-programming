@@ -16,7 +16,7 @@ from langchain.messages import HumanMessage
 
 session_history = SessionHistory(max_token=20)
 
-def add_session_message(session_id:str)->ChatMessageHistory:
+def get_session_message(session_id:str)->ChatMessageHistory:
     return session_history.process(session_id)
 
 def get_history_chain():
@@ -26,7 +26,7 @@ def get_history_chain():
         ),MessagesPlaceholder(variable_name="message")
     ])
     chain = prompt | get_llm()
-    return RunnableWithMessageHistory(chain,add_session_message)
+    return RunnableWithMessageHistory(chain,get_session_message)
 
 with_messages_chain = get_history_chain()
 
@@ -37,7 +37,7 @@ def chat(hunman_message,session_id):
     return response.content
 
 if __name__ == "__main__":
-    session_id = "liu123"
+    session_id = "aaaa"
     print (chat("你知道x-space的老板马斯克么？", session_id))
     print (chat("他出生在哪个国家？", session_id))
     print (chat("他和特朗普是什么关系？", session_id))

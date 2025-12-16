@@ -1,6 +1,6 @@
 from langchain_core.messages import BaseMessage
 from langchain_core.chat_history import InMemoryChatMessageHistory,BaseChatMessageHistory
-from pydantic import Field
+from pydantic import Field,BaseModel
 import logging
 logger = logging.getLogger(__file__)
 class MessageHistory(InMemoryChatMessageHistory):
@@ -8,10 +8,6 @@ class MessageHistory(InMemoryChatMessageHistory):
     """
     扩展的聊天历史记录,可以限制聊天记录的最大长度
     """
-    def __init__(self,max_token:int):
-        super().__init__()
-        self.max_token = max_token
-    
     def add_message(self, message:BaseMessage):
         super().add_message(message)
         if(len(self.messages)>self.max_token):
@@ -20,14 +16,12 @@ class MessageHistory(InMemoryChatMessageHistory):
 
 from langchain.messages import AIMessage
 
-class SessionHistory(object):
+class SessionHistory(BaseModel):
+    max_token: int = Field(...)
+    store: dict = Field(default_factory=dict)
     """
     处理历史消息
     """
-    def __init__(self,max_token:int):
-        super().__init__()
-        self.max_token = max_token
-        self.store = {}
     
     def process(self,session_id:str)->BaseChatMessageHistory:
         if session_id not in self.store:
