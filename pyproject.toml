@@ -10,4 +10,5 @@ dependencies = [
     "langchain-deepseek>=1.0.1",
     "langchain-ollama>=1.0.1",
     "langgraph>=1.0.5",
+    "pypdf>=6.4.2",
 ]
